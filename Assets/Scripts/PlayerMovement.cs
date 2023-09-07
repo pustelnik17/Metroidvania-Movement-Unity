@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] private float maxVelocity = 1f;
     [SerializeField] private float acceleration = 1f;
+    [SerializeField] private float jumpImpulse = 1f;
     [SerializeField] private float jumpForce = 1f;
     [SerializeField] private GameObject groundCheck;
     [SerializeField] private LayerMask groundLayer;
@@ -25,7 +26,11 @@ public class PlayerMovement : MonoBehaviour
 
         if (Physics2D.OverlapBox(groundCheck.transform.position, groundCheck.transform.localScale, 0, groundLayer))
         {
-            playerRigidBody.AddForce(moveInput.y * jumpForce * Vector2.up, ForceMode2D.Impulse);
+            playerRigidBody.AddForce(moveInput.y * jumpImpulse * Vector2.up, ForceMode2D.Impulse);
+        }
+        else
+        {
+            playerRigidBody.AddForce(moveInput.y * jumpForce * Vector2.up, ForceMode2D.Force);
         }
 
         if(playerRigidBody.velocity.y < 0)
